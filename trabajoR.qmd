@@ -3,6 +3,7 @@ title: "TrabajoIntroR"
 author: "Golam"
 format: html
 editor: visual
+bibliography: TrabajoInvestigacion.bib
 ---
 
 ## Quarto

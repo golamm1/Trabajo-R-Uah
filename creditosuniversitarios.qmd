@@ -1,0 +1,25 @@
+---
+title: "InvestigacionCreditosUniversitarios"
+format: html
+editor: visual
+bibliography: TrabajoInvestigacion.bib
+link-citations: true
+---
+
+## Introducción
+
+La promesa de una movilidad social en el ingreso a la educación superior en Chile es una ilusión que dentro del mercado educacional se ha vuelto una constante a la hora de los ideales de las familiad con estudiantes en ciertos estratos de la sociedad chilena, estableciendo una determinada manera de construir formas de ingreso y acceso a al educación superior.
+
+El ingreso hacia la educacion superior desde los estudiantes provenientes de sectores socioeconomicos vulnerables, con una gran probabilidad de endeudamiento, para su incorporación a la educacion superior se ve comprometida por los diversos componentes que los estudiantes han desarrollado en su trayectorias de vida, lo cual eleva o disminuye las problabilidades de matricularse a un establecimiento educacional superior o superior técnico, o aceptar cierto beneficio com también de no aceptarlo. (1)
+
+La suceptibilidad por el endeudamiento del estudiante chileno también estará asociada a la rentabilidad que la propia oferta de la educación superior pueda entregar con claridad en tanto a su apertura al mercado laboral posterior al paso por la educacion formativa. El fututo ingreso al mercado del trabajo también constituirá un factor importante en lo que será la decisión final del estudiante por optar a tomar un crédito para estudiar en una institución de educación formal superior.
+
+El endeudamiento como un sistema de financiamiento de la educación aparece como un apéndice de un sistema neoliberal que ha hecho del Estado un aparato a favor del mercado que ha vuelto clientes a los individuos por medio de un intervencionismo en función de un sistema que promete movilidad social a costa de una deuda mucho mayor de las expectativas de mejoras que la educacion superior implica. (2)
+
+# Citas
+
+\(1\) [@olavarriagambiEndeudamientoEstudiantilAcceso2024]
+
+\(2\) [@lorenaperez-roaGobernadosPorDeudas2018]
+
+## 
