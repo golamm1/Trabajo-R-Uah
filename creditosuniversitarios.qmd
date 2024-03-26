@@ -4,6 +4,7 @@ format: html
 editor: visual
 bibliography: TrabajoInvestigacion.bib
 link-citations: true
+autor: Golam Berlagoscky Mayorga
 ---
 
 ## Introducción
