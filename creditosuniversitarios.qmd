@@ -1,5 +1,5 @@
 ---
-title: "InvestigacionCreditosUniversitarios"
+title: "El sistema de creditos en la educación superior: Endeudar para educar"
 format: html
 editor: visual
 bibliography: TrabajoInvestigacion.bib
@@ -21,4 +21,21 @@ La relevancia de un estudio de este tipo es que resulta una aproximacion hacia e
 
 A raíz de lo expuesto anteriormente se espera analizar que a una mayor cantidad de financiamento vía créditos o endeudamientos en el acceso a la educación superior incrementa la percepción de desigualdad en los estudiantes, de esta forma acentuando la crisis de un sistema de educación de mercado en Chile.
 
-## 
+## Análisis de datos 
+
+Los datos producidos durante la realización de esta investigación dan cuenta de un fenómeno mercantil que ha generado importantes cambios en el sistema de educación superior mediante el financiamiento de carreras técnicas y profesionales a través de créditos fiscales, transformando así la educación superior en un sistema de endeudamiento progresivo en el cual los estudiantes deben optar al crédito y a la alta probabilidad de endeudarse al terminar sus estudios para lograr incorporarse en un mercado laboral cada vez más exigente y competitivo.
+
+En primer lugar, mostraré un gráfico de barras que nos adentrará en el panorama estudiantil al interior de la educación superior en Chile.
+
+```{r}
+summarytools::dfSummary(casen_superior, plain.ascii = FALSE)
+
+```
+
+Estos primeros datos nos dan una muestra general del financiamiento de los estudiantes de distintos niveles y establecimientos educacionales, del cual la población de estudiantes superiores se ve distribuida en tres niveles educacionales, teniendo como el más frecuente para esta población el nivel profesional con un total de 4.573 casos, seguido por la formación técnica nivel superior con un total de 1.579 estudiantes, mientras que el nivel de posgrado se encuentra con 465 casos.
+
+A su vez, el tipo de establecimiento educacional al que asisten los estudiantes será clave para determinar cuántos estudiantes que se encuentran cursando alguna carrera en estos establecimientos están financiando sus estudios mediante un tipo de crédito. En este aspecto, encontramos que son 2.282 estudiantes que se encuentran cursando carreras en institutos profesionales o centros de formación técnica, mientras que serán 4.209 estudiantes en total los que cursen en establecimientos universitarios, los cuales 3.049 serán de universidades privadas y 1.160 serán de universidades estatales.
+
+Para adentrarnos más en la situación de financiamiento de estas carreras nos preguntamos por cuántos de estos estudiantes, que se encuentran en el sistema de educación superior, pagan el costo de la carrera o si tienen algún beneficio que cubra el 100% del arancel de su carrera, tan solo 1.299 estudiantes no paga el costo completo de su carrera a causa de un beneficio que cubra el 100% del arancel, mientras que es el 80,4% con 5.318 estudiantes en el nivel superior que deben hacerse cargo de una parte del coste de sus estudios al no contar con un beneficio que cubra el 100% del arancel.
+
+Finalmente, la variable más relevante pregunta directamente si dentro del financimiento de su carrera se encuentra con algún crédito, de la cual se despreden 2.669 casos de estudiantes superiores sujetos a esta red de endeudamiento para lograr complementar.
