@@ -16,7 +16,7 @@ View(casen2022)
 #1.1: Buscamos variables con la palabra creditos
 find_var(data = casen2022,"educación")
 #1.2: Selección de variables a utilizar para el estudio
-casen_proce <- casen2022 %>% select(e8,  # Tipo de establecimiento de educación superior
+casen_proce <- casen_proce %>% select(e8,  # Tipo de establecimiento de educación superior
                                     e18, # Tipo de crédito recibido para pagar la carrera
                                     e6a_asiste,  # Nivel educacional al que asiste
                                     e16) # Paga por la carrera que estudia
@@ -80,5 +80,11 @@ casen_proce$pago_carrera <- set_labels(casen_proce$pago_carrera,
                                               "No paga el coste de la carrera"=2))
 
 
+#Paso 4: Generación de base de datos procesada para posterior análisis
+casen_proce <-as.data.frame(casen_proce)
+stargazer(casen_proce, type="text")
 
+#5: Guardamos base de datos
+save(casen_proce,file = "C:/Users/franr/OneDrive/Documentos/GitHub/Trabajo-R-Uah/Processing/Procesamiento Trabajo Creditos Universitarios")
+save(casen_proce,file = "C:/Users/franr/OneDrive/Documentos/GitHub/Trabajo-R-Uah/Processing/Procesamiento Trabajo Creditos Universitarios.Rdata")
 
