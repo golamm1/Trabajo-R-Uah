@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>InvestigacionCreditosUniversitarios</title>
+<title>El sistema de creditos en la educación superior: Endeudar para educar</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 /* CSS for citations */
 div.csl-bib-body { }
@@ -64,7 +98,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">InvestigacionCreditosUniversitarios</h1>
+<h1 class="title">El sistema de creditos en la educación superior: Endeudar para educar</h1>
 </div>
 
 
@@ -88,8 +122,185 @@ div.csl-indent {
 <p>La relevancia de un estudio de este tipo es que resulta una aproximacion hacia el modelo de educacion de mercado y sus impactos post estudios en los distintos sectores educacionales, de esta manera, el sistema de educación por endeudamiento afectaría de manera desigual tanto a los estudiantes provenientes de la educación técnica, humanista científico y artística, significando una oportunidad para muchos pero un impedimento para muchos otros en la búsqueda de una mejora de la calidad de vida.</p>
 <p>A raíz de lo expuesto anteriormente se espera analizar que a una mayor cantidad de financiamento vía créditos o endeudamientos en el acceso a la educación superior incrementa la percepción de desigualdad en los estudiantes, de esta forma acentuando la crisis de un sistema de educación de mercado en Chile.</p>
 </section>
-<section id="section" class="level2 unnumbered">
+<section id="análisis-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="análisis-de-datos">Análisis de datos</h2>
+<p>Los datos producidos durante la realización de esta investigación dan cuenta de un fenómeno mercantil que ha generado importantes cambios en el sistema de educación superior mediante el financiamiento de carreras técnicas y profesionales a través de créditos fiscales, transformando así la educación superior en un sistema de endeudamiento progresivo en el cual los estudiantes deben optar al crédito y a la alta probabilidad de endeudarse al terminar sus estudios para lograr incorporarse en un mercado laboral cada vez más exigente y competitivo.</p>
+<p>En primer lugar, mostraré una tabla que nos adentrará en el panorama estudiantil al interior de la educación superior en Chile. Para esto abriré la base de datos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"C:/Users/franr/OneDrive/Documentos/GitHub/Trabajo-R-Uah/Processing/Procesamiento Trabajo Creditos Universitarios.Rdata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Realizamos una instalación de paquetes a utilizar:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(sjlabelled,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>               dplyr, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>              stargazer, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>              sjmisc, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>              summarytools, </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>              kableExtra, </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>              sjPlot, </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>              corrplot,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>              sessioninfo, </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>              ggplot2) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>summarytools<span class="sc">::</span><span class="fu">dfSummary</span>(casen_superior, <span class="at">plain.ascii =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>### Data Frame Summary  
+#### casen_superior  
+**Dimensions:** 6617 x 4  
+**Duplicates:** 6575  
 
+------------------------------------------------------------------------------------------------------------------------------------
+No   Variable        Label                             Stats / Values   Freqs (% of Valid)   Graph              Valid      Missing  
+---- --------------- --------------------------------- ---------------- -------------------- ------------------ ---------- ---------
+1    credi_sup\      Tipo de crédito                   1\. 0\           3948 (59.7%)\        IIIIIIIIIII \      6617\      0\       
+     [factor]                                          2\. 1            2669 (40.3%)         IIIIIIII           (100.0%)   (0.0%)   
+
+2    nivel_educ\     Nivel educacional                 1\. 2\           1579 (23.9%)\        IIII \             6617\      0\       
+     [factor]                                          2\. 3\           4573 (69.1%)\        IIIIIIIIIIIII \    (100.0%)   (0.0%)   
+                                                       3\. 4            465 ( 7.0%)          I                                      
+
+3    pago_carrera\   Paga por la carrera que estudia   1\. 0\           1299 (19.6%)\        III \              6617\      0\       
+     [factor]                                          2\. 1            5318 (80.4%)         IIIIIIIIIIIIIIII   (100.0%)   (0.0%)   
+
+4    estab_sup\      Tipo de establecimiento           1\. 2\           2282 (34.5%)\        IIIIII \           6617\      0\       
+     [factor]                                          2\. 3\           3049 (46.1%)\        IIIIIIIII \        (100.0%)   (0.0%)   
+                                                       3\. 4\           1160 (17.5%)\        III \                                  
+                                                       4\. 5            126 ( 1.9%)                                                 
+------------------------------------------------------------------------------------------------------------------------------------</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view</span>(<span class="fu">dfSummary</span>(casen_superior, <span class="at">headings=</span><span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Switching method to 'browser'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Output file written: C:\Users\franr\AppData\Local\Temp\Rtmp2R2fxT\file50a024fe7ceb.html</code></pre>
+</div>
+</div>
+<p>Estos primeros datos nos dan una muestra general del financiamiento de los estudiantes de distintos niveles y establecimientos educacionales, del cual la población de estudiantes superiores se ve distribuida en tres niveles educacionales, teniendo como el más frecuente para esta población el nivel profesional con un total de 4.573 casos, seguido por la formación técnica nivel superior con un total de 1.579 estudiantes, mientras que el nivel de posgrado se encuentra con 465 casos.</p>
+<p>A su vez, el tipo de establecimiento educacional al que asisten los estudiantes será clave para determinar cuántos estudiantes que se encuentran cursando alguna carrera en estos establecimientos están financiando sus estudios mediante un tipo de crédito. En este aspecto, encontramos que son 2.282 estudiantes que se encuentran cursando carreras en institutos profesionales o centros de formación técnica, mientras que serán 4.209 estudiantes en total los que cursen en establecimientos universitarios, los cuales 3.049 serán de universidades privadas y 1.160 serán de universidades estatales.</p>
+<p>Para adentrarnos más en la situación de financiamiento de estas carreras nos preguntamos por cuántos de estos estudiantes, que se encuentran en el sistema de educación superior, pagan el costo de la carrera o si tienen algún beneficio que cubra el 100% del arancel de su carrera, tan solo 1.299 estudiantes no paga el costo completo de su carrera a causa de un beneficio que cubra el 100% del arancel, mientras que es el 80,4% con 5.318 estudiantes en el nivel superior que deben hacerse cargo de una parte del coste de sus estudios al no contar con un beneficio que cubra el 100% del arancel.</p>
+<p>Finalmente, la variable más relevante pregunta directamente si dentro del financimiento de su carrera se encuentra con algún crédito, de la cual se despreden 2.669 casos de estudiantes superiores sujetos a esta red de endeudamiento para lograr complementar.</p>
+<p>Ahora pasaremos a observar las medidas de tendencia central de las variables para su posterior análisis</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sjmisc<span class="sc">::</span><span class="fu">descr</span>(casen_superior,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">show =</span> <span class="fu">c</span>(<span class="st">"label"</span>,<span class="st">"range"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span>, <span class="st">"NA.prc"</span>, <span class="st">"n"</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">kable</span>(.,<span class="st">"markdown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 3%">
+<col style="width: 14%">
+<col style="width: 36%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">var</th>
+<th style="text-align: left;">label</th>
+<th style="text-align: right;">n</th>
+<th style="text-align: right;">NA.prc</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: left;">range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">credi_sup</td>
+<td style="text-align: left;">Tipo de crédito</td>
+<td style="text-align: right;">6617</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.4033550</td>
+<td style="text-align: right;">0.4906079</td>
+<td style="text-align: left;">1 (0-1)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">nivel_educ</td>
+<td style="text-align: left;">Nivel educacional</td>
+<td style="text-align: right;">6617</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2.8316458</td>
+<td style="text-align: right;">0.5297174</td>
+<td style="text-align: left;">2 (2-4)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">pago_carrera</td>
+<td style="text-align: left;">Paga por la carrera que estudia</td>
+<td style="text-align: right;">6617</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.8036875</td>
+<td style="text-align: right;">0.3972377</td>
+<td style="text-align: left;">1 (0-1)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">estab_sup</td>
+<td style="text-align: left;">Tipo de establecimiento</td>
+<td style="text-align: right;">6617</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2.8685205</td>
+<td style="text-align: right;">0.7610147</td>
+<td style="text-align: left;">3 (2-5)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>En esta sección podemos observar que las medidas de tendencia central que se desprenden de la primera variable sobre el tipo de credito (credi_sup) evidencian una media de 0.403 entre los valores del 0 al 1, en donde 1 es el uso de algun tipo de credito para el financiamiento de su carrera en la educación superior, lo que significa que existe una proporción de al menos un 40% de estudiantes que se encuentran en una situación crediticia con alguna institución financiera, por su parte la desviación estándar se mantiene con un total de 0.490 lo que representa una dispersión de casi 0.5 puntos de desviación de los datos con respecto a la media.</p>
+<p>La siguiente variable a describir es el Nivel educacional que responden a una media 2,831 en donde el valor que toma la categoría “2” es la de “Técnico nivel superior” lo que demuestra una preponderante cantidad de estudiantes que se encuentran en este nivel educacional, mientras que su desviación estándar responde al valor de 0.529 lo que representa una gran dispersión de los datos con respecto a su media.</p>
+<p>La tercera variable sobre el pago por la carrera encuentra su media en 0.803 lo que representa una gran concentración de los datos en la categoría de “Sí, paga el arancel por la carrera que estudia” que recibe un valor de 1 y con una dispersión baja de 0.397 en cuanto a su desviación estándar se demuestra una gran concentración de estudiantes superiores que deben hacerse cargo de costear sus estudios sin un beneficio que cubra el 100% de su educación.</p>
+<p>Por último, la cuarta variable sobre el tipo de establecimiento al que asiste aquel estudiante de educación superior dispone de una media de 2,868 en una escala de categorías que ven desde universidades hasta centros de formación técnica e institutos profesionales, en este caso el promedio de esta variable representaría que existe una presencia importante, en esta base de datos, de estudiantes superiores de universidades privadas y tecnicos profesionales. La desviación estándar de 0.761 nos indicaría una importante dispersión de los datos distribuidos a lo largo de estas categorías, definiendo casos muy extremos como “otros” que representan estudios en el extranjero y academias militares.</p>
+<p>Para que la investigación adquiera una mayor profunidad, se realizará la construcción de gráficos que permitan el análisis sustantivo mediante el cruce de la infromación que proporcionan las variables seleccionadas. En primer lugar, encuentro que el cruce entre la variable de establecimientos educacionales superiores y el uso de algún tipo de crédito resultaría útil para encontrar una asociación entre el tipo de establecimiento al que se accede y la necesidad de optar por un crédito para complementar el pago de aranceles.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>casen_superior <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> estab_sup, <span class="at">fill =</span> credi_sup)) <span class="sc">+</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Establecimiento Educacional Superior"</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Cantidad"</span>) <span class="sc">+</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">"Estudiantes con créditos universitarios"</span>)<span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'Algun tipo de crédito'</span>,<span class="st">'Sin crédito'</span>)) <span class="sc">+</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">size =</span> <span class="fl">1.5</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>, <span class="at">angle =</span> <span class="dv">35</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+ℹ Please use the `linewidth` argument instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="creditosuniversitarios_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Desde este gráfico podemos encontrar que los establecimientos de educación superior en Chile que tienen más estudiantes con situación de créditos es la educación técnica profesional constituida por los instituos profesionales y centros de formación técnica con más de la mitad de los estudiantes de estos establecimientos educacionales se encuentran con créditos para costear sus estudios superiores.</p>
+<p>Para la situación de los estudiantes universitarios resulta pareja la proporción entre estudiantes que tienen algún beneficio que cubra la totalidad de sus aranceles versus aquella mitad que necesita y se encuentra estudiando con créditos. Aún así se observa una mayor cantidad de estudiantes con situación crediticia en comparación con aquellos estudiantes que no dependen de las deudas para la continuidad de sus estudios.</p>
+<p>La siguiente descripción expondrá el último hallazgo extraído a partir de esta investigación y la selección de las variables,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>casen_superior <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> nivel_educ, <span class="at">fill =</span> pago_carrera)) <span class="sc">+</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Nivel Educacional"</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Cantidad"</span>) <span class="sc">+</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">"Estudiantes que pagan sus estudios"</span>)<span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'No lo paga'</span>,<span class="st">'Si lo paga'</span>)) <span class="sc">+</span> </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">size =</span> <span class="fl">1.5</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">6</span>, <span class="at">angle =</span> <span class="dv">35</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="creditosuniversitarios_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>En este gráfico nos encontramos con estudiantes de educación superior que se deben hacer cargo del pago de sus estudios superiores, representando que la gran mayoría de los estudiantes, independiente del nivel educacional que tengan se terminan por hacer cargo de los aranceles que sus respectivas ccarreras dispongan.</p>
+<p>En primera instancia, con el valor “2” observamos a los técnicos nivel superior que declaran haber pagado parte de su arancel, sin reconocer un beneficio que se haga cargo de la totalidad del arancel, por otro lado la mayoría de los profesionales habrían declarado hacerse cargo del costo de sus estudios y finalmente, quienes estudiaron posgrados en algun establecimiento de educación superior declaran con gran mayoría haberse hecho cargo de los costos de sus estudios.</p>
 
 </section>
 
