@@ -102,3 +102,7 @@ grafico4 <- casen_superior %>% ggplot(aes(x = estab_sup)) +
   ylab("Cantidad")+
   facet_wrap(~credi_sup)
 ggsave(grafico4, file="C:/Users/franr/OneDrive/Documentos/GitHub/Trabajo-R-Uah/Output/grafico3.png")
+
+#Paso 6: Guardamos base de datos
+save(casen_superior,file = "C:/Users/franr/OneDrive/Documentos/GitHub/Trabajo-R-Uah/Processing/Procesamiento Trabajo Creditos Universitarios.Rdata")
+

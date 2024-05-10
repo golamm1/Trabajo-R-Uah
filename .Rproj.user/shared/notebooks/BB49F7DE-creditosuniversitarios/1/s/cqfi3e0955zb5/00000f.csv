@@ -1,0 +1,6 @@
+"0","indicadores_sup = casen_superior %>% "
+"0","  rowwise() %>%"
+"0","  mutate(tipo_educacion = mean(c(nivel_educ, estab_sup)),"
+"0","         financiamiento = mean(c(credi_sup, pago_carrera)),"
+"0","         ) %>% "
+"0","  ungroup()"

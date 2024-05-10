@@ -1,0 +1,4 @@
+"0","indicadores_sup = indicadores_sup %>% "
+"0","  rowwise() %>%"
+"0","  mutate(financiamiento_superior = mean(c(tipo_educacion, financiamiento))) %>% "
+"0","  ungroup()"

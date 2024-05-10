@@ -174,7 +174,7 @@ No   Variable        Label                             Stats / Values   Freqs (%
 <pre><code>Switching method to 'browser'</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Output file written: C:\Users\franr\AppData\Local\Temp\RtmpOAuvab\file47c4d16cda.html</code></pre>
+<pre><code>Output file written: C:\Users\franr\AppData\Local\Temp\RtmpIzhRji\file48845b3a2737.html</code></pre>
 </div>
 </div>
 <p>Estos primeros datos nos dan una muestra general del financiamiento de los estudiantes de distintos niveles y establecimientos educacionales, del cual la población de estudiantes superiores se ve distribuida en tres niveles educacionales, teniendo como el más frecuente para esta población el nivel profesional con un total de 4.573 casos, seguido por la formación técnica nivel superior con un total de 1.579 estudiantes, mientras que el nivel de posgrado se encuentra con 465 casos.</p>
@@ -301,6 +301,107 @@ No   Variable        Label                             Stats / Values   Freqs (%
 </div>
 <p>En este gráfico nos encontramos con estudiantes de educación superior que se deben hacer cargo del pago de sus estudios superiores, representando que la gran mayoría de los estudiantes, independiente del nivel educacional que tengan se terminan por hacer cargo de los aranceles que sus respectivas ccarreras dispongan.</p>
 <p>En primera instancia, con el valor “2” observamos a los técnicos nivel superior que declaran haber pagado parte de su arancel, sin reconocer un beneficio que se haga cargo de la totalidad del arancel, por otro lado la mayoría de los profesionales con el valor “3” habrían declarado hacerse cargo del costo de sus estudios y finalmente, quienes estudiaron posgrados (con el valor “4”) en algun establecimiento de educación superior declaran con gran mayoría haberse hecho cargo de los costos de sus estudios.</p>
+</section>
+<section id="análisis-de-asociación-de-variables" class="level1">
+<h1>Análisis de Asociación de Variables</h1>
+<p>Para realizar este tipo de análisis necesitamos tratar a nuestros datos como númericas, para estamos cambiaremos la naturaleza del data frame y con eso de las variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>casen_superior <span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(<span class="fu">lapply</span>(casen_superior, as.numeric))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Una vez que nuestra base de datos está construida por variables de tipo númericos podemos comenzar a realizar las asociaciones entre variables. En primer lugar, para el interés de esta investigación será relevante evidenciar las correlaciones que existen entre todas las variables que componen a la base de datos a observar, esto mediante una matriz de correlaciones que vislumbrará la fuerza y la dirección con la que las cuatros variables se correlacionarán entre sí. La correlación se hará aplicando el enfoque listwise deletion, el cual elimina por completo los valores perdidos asignados en este trabajo como NA y omitidos posteriormente.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sjPlot<span class="sc">::</span><span class="fu">tab_corr</span>(casen_superior, </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">triangle =</span> <span class="st">"lower"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th" style="font-style: italic; font-weight: normal; border-top: double black; border-bottom: 1px solid black; padding: 0.2cm">&nbsp;</td>
+<td data-quarto-table-cell-role="th" style="font-style: italic; font-weight: normal; border-top: double black; border-bottom: 1px solid black; padding: 0.2cm">credi_sup</td>
+<td data-quarto-table-cell-role="th" style="font-style: italic; font-weight: normal; border-top: double black; border-bottom: 1px solid black; padding: 0.2cm">nivel_educ</td>
+<td data-quarto-table-cell-role="th" style="font-style: italic; font-weight: normal; border-top: double black; border-bottom: 1px solid black; padding: 0.2cm">pago_carrera</td>
+<td data-quarto-table-cell-role="th" style="font-style: italic; font-weight: normal; border-top: double black; border-bottom: 1px solid black; padding: 0.2cm">estab_sup</td>
+</tr>
+<tr class="even">
+<td style="font-style: italic">credi_sup</td>
+<td style="text-align: center; padding: 0.2cm;">&nbsp;</td>
+<td style="text-align: center; padding: 0.2cm;">&nbsp;</td>
+<td style="text-align: center; padding: 0.2cm;">&nbsp;</td>
+<td style="text-align: center; padding: 0.2cm;">&nbsp;</td>
+</tr>
+<tr class="odd">
+<td style="font-style: italic">nivel_educ</td>
+<td style="text-align: center; padding: 0.2cm;">0.047<span style="vertical-align:super;font-size:0.8em;">***</span></td>
+<td style="text-align: center; padding: 0.2cm;">&nbsp;</td>
+<td style="text-align: center; padding: 0.2cm;">&nbsp;</td>
+<td style="text-align: center; padding: 0.2cm;">&nbsp;</td>
+</tr>
+<tr class="even">
+<td style="font-style: italic">pago_carrera</td>
+<td style="text-align: center; padding: 0.2cm;">-0.182<span style="vertical-align:super;font-size:0.8em;">***</span></td>
+<td style="text-align: center; padding: 0.2cm;">-0.042<span style="vertical-align:super;font-size:0.8em;">***</span></td>
+<td style="text-align: center; padding: 0.2cm;">&nbsp;</td>
+<td style="text-align: center; padding: 0.2cm;">&nbsp;</td>
+</tr>
+<tr class="odd">
+<td style="font-style: italic">estab_sup</td>
+<td style="text-align: center; padding: 0.2cm;">0.086<span style="vertical-align:super;font-size:0.8em;">***</span></td>
+<td style="text-align: center; padding: 0.2cm;">0.530<span style="vertical-align:super;font-size:0.8em;">***</span></td>
+<td style="text-align: center; padding: 0.2cm;">-0.086<span style="vertical-align:super;font-size:0.8em;">***</span></td>
+<td style="text-align: center; padding: 0.2cm;">&nbsp;</td>
+</tr>
+<tr class="even">
+<td colspan="5" style="text-align: right; border-bottom: double black; border-top: 1px solid black; font-style: italic; font-size: 0.9em;">Computed correlation used pearson-method with listwise-deletion.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>En la tabla expuesta podemos distinguir una serie de diferentes correlaciones para las variables seleccionadas. Partiendo por la más relevante, con un coeficiente de correlación de Pearson de 0,53 entre la variable de nivel educacional y el establecimiento educacional de nivel superior al que asiste, siendo un coeficiente de correlación positivo y moderado (r = 0,5).</p>
+<p>Para adentrarnos más en esta asociación de las variables vamos a generar una gráfica que nos permita observar la asociación entre las variables con más claridad.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sjPlot<span class="sc">::</span><span class="fu">plot_scatter</span>(casen_superior, nivel_educ, estab_sup)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="creditosuniversitarios_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>En este gráfico de nube de puntos observamos que las asociaciones que existen entre las categorías de ambas variables son positivas y al estar tan juntas nos indica una correlación moderadamente fuerte.</p>
+<p>Un segundo gráfico de nube de puntos que nos puede resultar interesante para el análisis de el sistema de financiamiento por créditos para la educación superior es la asociación entre las variables de crédito y el establecimiento educacional de nivel superior al que asiste. Este coeficiente de correlación de pearson es de 0,08, lo que indica una correlación con dirección positiva y una fuerza muy pequeña.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sjPlot<span class="sc">::</span><span class="fu">plot_scatter</span>(casen_superior, estab_sup, credi_sup)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="creditosuniversitarios_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>En el anterior gráfico de nube de puntos podemos observar que entre estas dos variables existe una asociación más débil con respecto al gráfico anteriormente observado, en la cual se encuentra una dirección positiva, lo que representa cierto grado mínimo de una asociación esperada entre estudiantes que financian sus estudios mediante algún tipo de crédito y estudiantes en distintos establecimientos de educación superior.</p>
+<p>Ahora, para determinar el grado en el que el financiamiento de la educación superior mediante el uso de créditos está presente en aquellos estudiantes de los niveles educacionales superiores, realizaremos un índice ponderado.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>indicadores_sup <span class="ot">=</span> casen_superior <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tipo_educacion =</span> <span class="fu">mean</span>(<span class="fu">c</span>(nivel_educ, estab_sup)),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">financiamiento =</span> <span class="fu">mean</span>(<span class="fu">c</span>(credi_sup, pago_carrera)),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>         ) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Una vez obtenidas las dos dimensiones que podemos obtener de nuestra base de datos, que serían sobre financimiento de la educación superior y sobre el tipo de educacion que el encuestado recibe, procederemos a obtener el promedio de estas dos dimensiones para así establecer cuál sería el índice del financimiento en la educación superior.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>indicadores_sup <span class="ot">=</span> indicadores_sup <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">financiamiento_superior =</span> <span class="fu">mean</span>(<span class="fu">c</span>(tipo_educacion, financiamiento))) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Al obtener de esta forma los índices para cada observación de las variables, buscaremos obtener un valor númerico que nos permita determinar si la situación de los estudiantes resulta ser una situación de endeudamiento para financiar sus estudios superiores o no.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>indicadores_sup <span class="ot">&lt;-</span> indicadores_sup <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">financiamiento_superior =</span> <span class="fu">case_when</span>(financiamiento_superior<span class="sc">&gt;=</span><span class="dv">2</span><span class="sc">~</span><span class="st">"Estudiante sin créditos"</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                                                      financiamiento_superior<span class="sc">&lt;</span><span class="dv">2</span><span class="sc">~</span><span class="st">"Estudiante con créditos"</span>))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(indicadores_sup<span class="sc">$</span>financiamiento_superior))<span class="sc">*</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Estudiante con créditos Estudiante sin créditos 
+               64.69699                35.30301 </code></pre>
+</div>
+</div>
+<p>Al establecer estos índices podemos observar que los estudiantes de la educación superior que financian sus estudios mediante el sistema de créditos es bastante alto, siendo casi el doble de los estudiantes que estudian sin el uso de créditos. Un 64.67% de los estudiantes se encontraría o se encontró en una situación en donde financió sus estudios de nivel superior mediante los créditos y, por lo tanto, tuvo que endeudarse para posibilitar la continuidad de sus estudios en miras de una mejora y aumento de posibilidades laborales.</p>
 
 </section>
 
