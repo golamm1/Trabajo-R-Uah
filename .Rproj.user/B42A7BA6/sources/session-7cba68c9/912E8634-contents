@@ -1,7 +1,0 @@
-#Código para el análisis de asociación entre variables
-
-as.numeric(casen_superior)
-# Convertir todas las columnas a numérico
-str(casen_superior)
-
-

@@ -1,0 +1,180 @@
+---
+title: "El sistema de creditos en la educación superior: Endeudar para educar"
+format: html
+editor: visual
+bibliography: TrabajoInvestigacion.bib
+link-citations: true
+autor: Golam Berlagoscky Mayorga
+---
+
+## Introducción
+
+La promesa de una movilidad social en el ingreso a la educación superior en Chile es una premisa que, dentro de las lógicas familiares para lograr un ascenso social se muestra como una gran oportunidad con una buena proyección a futuro en el mercado laboral, la esperanza por una oprtunidad de un mejor futuro configura un horizonte al cual son los jóvenes de las familias quienes tienen el llamado de intentarlo, estableciendo de esta forma, una determinada manera de construir formas de ingreso y acceso a la educación superior.
+
+El endeudamiento como un sistema de financiamiento de la educación aparece como un apéndice de un sistema neoliberal que ha hecho del Estado un aparato a favor del mercado que ha vuelto clientes a los individuos por medio de un intervencionismo, en función de un sistema que promete movilidad social a costa de una deuda mucho mayor de las expectativas de mejoras que la propia educación superior promete, como lo expone en su estudio de gubernamentalidad @lorenaperez-roaGobernadosPorDeudas2018 referente a un Estado reproductor de deudas en el sistema educacional.
+
+Los factores como el tipo de educación en la que se desarrollan las personas hasta el ingreso a la educación superior trae consigo una serie de temores frente al gran costo que implica el acceso a la educación superior, @vicenteespinozaEstratificacionMovilidadSocial2013 se pregunta por el tipo de carrera estudiada, la deserción de los estudios y la empleabilidad son constantes a la hora de la toma de decisión por entrar a la educación superior, por ende, es señal de una gran inseguridad para los estudios de la estratificación social.
+
+En profundización a esto último se condice con la evidencia de altos grados de correlacion entre estudiantes de enseñanza media de colegios científicos humanistas que son más propensos a estudiar con creditos que estudiantes provenientes de la educación técnica, quienes son más reacios al financiamiento por endeudamiento, como expone @olavarriagambiEndeudamientoEstudiantilAcceso2024. En favor de esto, se complementan con los estudios realizados por @denegricoriaEscalaActitudesHacia2011 quien plantea una escala de actitudes orientadas a los créditos, en la cual se construyen perfiles que guardan relación con el endeudamiento, teniendo como principal hallazgo en la ciudad de Temuco, un 42,4% de los estudiantes con un perfil austero frente al uso de creditos, optando por evitar la deuda y buscar el ahorro.
+
+La relevancia de un estudio de este tipo es que resulta una aproximacion hacia el modelo de educacion de mercado y sus impactos post estudios en los distintos sectores educacionales, de esta manera, el sistema de educación por endeudamiento afectaría de manera desigual tanto a los estudiantes provenientes de la educación técnica, humanista científico y artística, significando una oportunidad para muchos pero un impedimento para muchos otros en la búsqueda de una mejora de la calidad de vida.
+
+A raíz de lo expuesto anteriormente se espera analizar que a una mayor cantidad de financiamento vía créditos o endeudamientos en el acceso a la educación superior incrementa la percepción de desigualdad en los estudiantes, de esta forma acentuando la crisis de un sistema de educación de mercado en Chile.
+
+## Análisis de datos
+
+Los datos producidos durante la realización de esta investigación dan cuenta de un fenómeno mercantil que ha generado importantes cambios en el sistema de educación superior mediante el financiamiento de carreras técnicas y profesionales a través de créditos fiscales, transformando así la educación superior en un sistema de endeudamiento progresivo en el cual los estudiantes deben optar al crédito y a la alta probabilidad de endeudarse al terminar sus estudios para lograr incorporarse en un mercado laboral cada vez más exigente y competitivo.
+
+En primer lugar, mostraré una tabla que nos adentrará en el panorama estudiantil al interior de la educación superior en Chile. Para esto abriré la base de datos:
+
+```{r}
+load("C:/Users/franr/OneDrive/Documentos/GitHub/Trabajo-R-Uah/Processing/Procesamiento Trabajo Creditos Universitarios.Rdata")
+```
+
+Realizamos una instalación de paquetes a utilizar:
+
+```{r}
+pacman::p_load(sjlabelled,
+               dplyr, 
+              stargazer, 
+              sjmisc, 
+              summarytools, 
+              kableExtra, 
+              sjPlot, 
+              corrplot,
+              sessioninfo, 
+              ggplot2) 
+```
+
+```{r}
+summarytools::dfSummary(casen_superior, plain.ascii = FALSE)
+view(dfSummary(casen_superior, headings=FALSE))
+
+```
+
+Estos primeros datos nos dan una muestra general del financiamiento de los estudiantes de distintos niveles y establecimientos educacionales, del cual la población de estudiantes superiores se ve distribuida en tres niveles educacionales, teniendo como el más frecuente para esta población el nivel profesional con un total de 4.573 casos, seguido por la formación técnica nivel superior con un total de 1.579 estudiantes, mientras que el nivel de posgrado se encuentra con 465 casos.
+
+A su vez, el tipo de establecimiento educacional al que asisten los estudiantes será clave para determinar cuántos estudiantes que se encuentran cursando alguna carrera en estos establecimientos están financiando sus estudios mediante un tipo de crédito. En este aspecto, encontramos que son 2.282 estudiantes que se encuentran cursando carreras en institutos profesionales o centros de formación técnica, mientras que serán 4.209 estudiantes en total los que cursen en establecimientos universitarios, los cuales 3.049 serán de universidades privadas y 1.160 serán de universidades estatales.
+
+Para adentrarnos más en la situación de financiamiento de estas carreras nos preguntamos por cuántos de estos estudiantes, que se encuentran en el sistema de educación superior, pagan el costo de la carrera o si tienen algún beneficio que cubra el 100% del arancel de su carrera, tan solo 1.299 estudiantes no paga el costo completo de su carrera a causa de un beneficio que cubra el 100% del arancel, mientras que es el 80,4% con 5.318 estudiantes en el nivel superior que deben hacerse cargo de una parte del coste de sus estudios al no contar con un beneficio que cubra el 100% del arancel.
+
+Finalmente, la variable más relevante pregunta directamente si dentro del financimiento de su carrera se encuentra con algún crédito, de la cual se despreden 2.669 casos de estudiantes superiores sujetos a esta red de endeudamiento para lograr complementar.
+
+Ahora pasaremos a observar las medidas de tendencia central de las variables para su posterior análisis
+
+```{r}
+sjmisc::descr(casen_superior,
+      show = c("label","range", "mean", "sd", "NA.prc", "n"))%>%
+      kable(.,"markdown")
+```
+
+En esta sección podemos observar que las medidas de tendencia central que se desprenden de la primera variable sobre el tipo de credito (credi_sup) evidencian una media de 0.403 entre los valores del 0 al 1, en donde 1 es el uso de algun tipo de credito para el financiamiento de su carrera en la educación superior, lo que significa que existe una proporción de al menos un 40% de estudiantes que se encuentran en una situación crediticia con alguna institución financiera, por su parte la desviación estándar se mantiene con un total de 0.490 lo que representa una dispersión de casi 0.5 puntos de desviación de los datos con respecto a la media.
+
+La siguiente variable a describir es el Nivel educacional que responden a una media 2,831 en donde el valor que toma la categoría "2" es la de "Técnico nivel superior" lo que demuestra una preponderante cantidad de estudiantes que se encuentran en este nivel educacional, mientras que su desviación estándar responde al valor de 0.529 lo que representa una gran dispersión de los datos con respecto a su media.
+
+La tercera variable sobre el pago por la carrera encuentra su media en 0.803 lo que representa una gran concentración de los datos en la categoría de "Sí, paga el arancel por la carrera que estudia" que recibe un valor de 1 y con una dispersión baja de 0.397 en cuanto a su desviación estándar se demuestra una gran concentración de estudiantes superiores que deben hacerse cargo de costear sus estudios sin un beneficio que cubra el 100% de su educación.
+
+Por último, la cuarta variable sobre el tipo de establecimiento al que asiste aquel estudiante de educación superior dispone de una media de 2,868 en una escala de categorías que ven desde universidades hasta centros de formación técnica e institutos profesionales, en este caso el promedio de esta variable representaría que existe una presencia importante, en esta base de datos, de estudiantes superiores de universidades privadas y tecnicos profesionales. La desviación estándar de 0.761 nos indicaría una importante dispersión de los datos distribuidos a lo largo de estas categorías, definiendo casos muy extremos como "otros" que representan estudios en el extranjero y academias militares.
+
+Para que la investigación adquiera una mayor profunidad, se realizará la construcción de gráficos que permitan el análisis sustantivo mediante el cruce de la infromación que proporcionan las variables seleccionadas. En primer lugar, encuentro que el cruce entre la variable de establecimientos educacionales superiores y el uso de algún tipo de crédito resultaría útil para encontrar una asociación entre el tipo de establecimiento al que se accede y la necesidad de optar por un crédito para complementar el pago de aranceles.
+
+```{r}
+casen_superior %>% ggplot(aes(x = estab_sup, fill = credi_sup)) + 
+  geom_bar() +
+  xlab("Establecimiento Educacional Superior") +
+  ylab("Cantidad") + 
+  labs(fill="Estudiantes con créditos universitarios")+
+  scale_fill_discrete(labels = c('Algun tipo de crédito','Sin crédito')) + 
+  theme(
+    plot.background = element_rect(size = 1.5, color = "black"),
+    axis.text.x = element_text(size = 6, angle = 35, hjust = 1),
+    axis.text.y = element_text(size = 10)
+  )
+```
+
+Desde este gráfico podemos encontrar que los establecimientos de educación superior en Chile que tienen más estudiantes con situación de créditos es la educación técnica profesional constituida por los instituos profesionales y centros de formación técnica con más de la mitad de los estudiantes de estos establecimientos educacionales se encuentran con créditos para costear sus estudios superiores.
+
+Para la situación de los estudiantes universitarios resulta pareja la proporción entre estudiantes que tienen algún beneficio que cubra la totalidad de sus aranceles versus aquella mitad que necesita y se encuentra estudiando con créditos. Aún así se observa una mayor cantidad de estudiantes con situación crediticia en comparación con aquellos estudiantes que no dependen de las deudas para la continuidad de sus estudios.
+
+La siguiente descripción expondrá el último hallazgo extraído a partir de esta investigación y la selección de las variables,
+
+```{r}
+casen_superior %>% ggplot(aes(x = nivel_educ, fill = pago_carrera)) + 
+  geom_bar() +
+  xlab("Nivel Educacional") +
+  ylab("Cantidad") + 
+  labs(fill="Estudiantes que pagan sus estudios")+
+  scale_fill_discrete(labels = c('No lo paga','Si lo paga')) + 
+  theme(
+    plot.background = element_rect(size = 1.5, color = "black"),
+    axis.text.x = element_text(size = 6, angle = 35, hjust = 1),
+    axis.text.y = element_text(size = 10)
+  )
+```
+
+En este gráfico nos encontramos con estudiantes de educación superior que se deben hacer cargo del pago de sus estudios superiores, representando que la gran mayoría de los estudiantes, independiente del nivel educacional que tengan se terminan por hacer cargo de los aranceles que sus respectivas ccarreras dispongan.
+
+En primera instancia, con el valor "2" observamos a los técnicos nivel superior que declaran haber pagado parte de su arancel, sin reconocer un beneficio que se haga cargo de la totalidad del arancel, por otro lado la mayoría de los profesionales con el valor "3" habrían declarado hacerse cargo del costo de sus estudios y finalmente, quienes estudiaron posgrados (con el valor "4") en algun establecimiento de educación superior declaran con gran mayoría haberse hecho cargo de los costos de sus estudios.
+
+# Análisis de Asociación de Variables
+
+Para realizar este tipo de análisis necesitamos tratar a nuestros datos como númericas, para estamos cambiaremos la naturaleza del data frame y con eso de las variables.
+
+```{r}
+casen_superior <-as.data.frame(lapply(casen_superior, as.numeric))
+```
+
+Una vez que nuestra base de datos está construida por variables de tipo númericos podemos comenzar a realizar las asociaciones entre variables. En primer lugar, para el interés de esta investigación será relevante evidenciar las correlaciones que existen entre todas las variables que componen a la base de datos a observar, esto mediante una matriz de correlaciones que vislumbrará la fuerza y la dirección con la que las cuatros variables se correlacionarán entre sí. La correlación se hará aplicando el enfoque listwise deletion, el cual elimina por completo los valores perdidos asignados en este trabajo como NA y omitidos posteriormente.
+
+```{r}
+sjPlot::tab_corr(casen_superior, 
+                 triangle = "lower")
+```
+
+En la tabla expuesta podemos distinguir una serie de diferentes correlaciones para las variables seleccionadas. Partiendo por la más relevante, con un coeficiente de correlación de Pearson de 0,53 entre la variable de nivel educacional y el establecimiento educacional de nivel superior al que asiste, siendo un coeficiente de correlación positivo y moderado (r = 0,5).
+
+Para adentrarnos más en esta asociación de las variables vamos a generar una gráfica que nos permita observar la asociación entre las variables con más claridad.
+
+```{r}
+sjPlot::plot_scatter(casen_superior, nivel_educ, estab_sup)
+```
+
+En este gráfico de nube de puntos observamos que las asociaciones que existen entre las categorías de ambas variables son positivas y al estar tan juntas nos indica una correlación moderadamente fuerte.
+
+Un segundo gráfico de nube de puntos que nos puede resultar interesante para el análisis de el sistema de financiamiento por créditos para la educación superior es la asociación entre las variables de crédito y el establecimiento educacional de nivel superior al que asiste. Este coeficiente de correlación de pearson es de 0,08, lo que indica una correlación con dirección positiva y una fuerza muy pequeña.
+
+```{r}
+sjPlot::plot_scatter(casen_superior, estab_sup, credi_sup)
+```
+
+En el anterior gráfico de nube de puntos podemos observar que entre estas dos variables existe una asociación más débil con respecto al gráfico anteriormente observado, en la cual se encuentra una dirección positiva, lo que representa cierto grado mínimo de una asociación esperada entre estudiantes que financian sus estudios mediante algún tipo de crédito y estudiantes en distintos establecimientos de educación superior.
+
+Ahora, para determinar el grado en el que el financiamiento de la educación superior mediante el uso de créditos está presente en aquellos estudiantes de los niveles educacionales superiores, realizaremos un índice ponderado.
+
+```{r}
+indicadores_sup = casen_superior %>% 
+  rowwise() %>%
+  mutate(tipo_educacion = mean(c(nivel_educ, estab_sup)),
+         financiamiento = mean(c(credi_sup, pago_carrera)),
+         ) %>% 
+  ungroup()
+```
+
+Una vez obtenidas las dos dimensiones que podemos obtener de nuestra base de datos, que serían sobre financimiento de la educación superior y sobre el tipo de educacion que el encuestado recibe, procederemos a obtener el promedio de estas dos dimensiones para así establecer cuál sería el índice del financimiento en la educación superior.
+
+```{r}
+indicadores_sup = indicadores_sup %>% 
+  rowwise() %>%
+  mutate(financiamiento_superior = mean(c(tipo_educacion, financiamiento))) %>% 
+  ungroup()
+```
+
+Al obtener de esta forma los índices para cada observación de las variables, buscaremos obtener un valor númerico que nos permita determinar si la situación de los estudiantes resulta ser una situación de endeudamiento para financiar sus estudios superiores o no.
+
+```{r}
+indicadores_sup <- indicadores_sup %>% mutate(financiamiento_superior = case_when(financiamiento_superior>=2~"Estudiante sin créditos",
+                                                      financiamiento_superior<2~"Estudiante con créditos"))
+prop.table(table(indicadores_sup$financiamiento_superior))*100
+```
+
+Al establecer estos índices podemos observar que los estudiantes de la educación superior que financian sus estudios mediante el sistema de créditos es bastante alto, siendo casi el doble de los estudiantes que estudian sin el uso de créditos. Un 64.67% de los estudiantes se encontraría o se encontró en una situación en donde financió sus estudios de nivel superior mediante los créditos y, por lo tanto, tuvo que endeudarse para posibilitar la continuidad de sus estudios en miras de una mejora y aumento de posibilidades laborales.
