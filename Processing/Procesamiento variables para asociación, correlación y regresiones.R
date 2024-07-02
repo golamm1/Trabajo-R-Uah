@@ -27,7 +27,7 @@ remove(casen2022)
 ###Guardamos la nueva base de datos casen_proce para hacerla más liviana para Github###
 write_dta(casen_proce, "casen_proce.dta")
 
-
+remove(casen2022)
 
 #1.2.1: Observamos cómo quedaron las variables seleccionadas                                          
 names(casen_proce)
