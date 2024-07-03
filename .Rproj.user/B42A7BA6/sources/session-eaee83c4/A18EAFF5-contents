@@ -1,0 +1,28 @@
+pacman::p_load(haven, dplyr)
+
+setwd("C:/Users/franr/OneDrive/Documentos/GitHub/Trabajo-R-Uah/Processing")
+casen2022 <- read_dta("CASEN.dta")
+casen2022 <- casen2022 %>% filter(!duplicated(folio)) %>%
+  select(asistencia=hh_d_asis,
+         rezago=hh_d_rez,
+         escolaridad=hh_d_esc,
+         malnutricion=hh_d_mal,
+         sist_salud=hh_d_prevs,
+         atencion=hh_d_acc,
+         ocupacion=hh_d_act,
+         seg_social=hh_d_cot,
+         jubilacion=hh_d_jub,
+         habitabilidad=hh_d_habitab,
+         hacinamiento=hh_d_hacina,
+         vivienda=hh_d_estado,
+         serv_basicos=hh_d_servbas,
+         entorno=hh_d_entorno,
+         ap_part_social=hh_d_appart,
+         trato=hh_d_tsocial,
+         seguridad=hh_d_seg,
+         region,
+         area) %>% as.data.frame()
+
+casen2022 <- casen2022[sample(nrow(casen2022), size=10000), ]
+write_dta(casen2022, "casen2022.dta")
+

@@ -1,0 +1,15 @@
+#Instalación de paquetes a utilizar
+install.packages("pacman")
+#Carga de paquetes
+pacman::p_load(dplyr, sjmisc, car, sjlabelled, stargazer, haven)
+#Ajuste del espacio de trabajo
+rm(list=ls())       
+options(scipen=999) 
+#Abrimos base de datos
+setwd("C:/Users/franr/OneDrive/Documentos/GitHub/Trabajo-R-Uah/Processing")
+elsoc <- read_dta("ELSOC_Long_2016_2022_v1.00.dta")
+#Paso 1: Selección de variables
+find_var(data=elsoc, "desigualdad")
+#1.2:Selección de variables a utilizar
+frq(elsoc$c41_01)
+frq(elsoc$c42_01)

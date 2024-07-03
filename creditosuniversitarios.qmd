@@ -43,7 +43,8 @@ pacman::p_load(sjlabelled,
               sjPlot, 
               corrplot,
               sessioninfo, 
-              ggplot2) 
+              ggplot2,
+              haven) 
 ```
 
 ```{r}
@@ -149,32 +150,63 @@ sjPlot::plot_scatter(casen_superior, estab_sup, credi_sup)
 
 En el anterior gráfico de nube de puntos podemos observar que entre estas dos variables existe una asociación más débil con respecto al gráfico anteriormente observado, en la cual se encuentra una dirección positiva, lo que representa cierto grado mínimo de una asociación esperada entre estudiantes que financian sus estudios mediante algún tipo de crédito y estudiantes en distintos establecimientos de educación superior.
 
-Ahora, para determinar el grado en el que el financiamiento de la educación superior mediante el uso de créditos está presente en aquellos estudiantes de los niveles educacionales superiores, realizaremos un índice ponderado.
+Ahora, para determinar el grado en el que el financiamiento de la educación superior mediante el uso de créditos está presente en aquellos estudiantes de los niveles educacionales superiores, realizaremos un índice no ponderado de la base de datps casen, para lograr identificar el nivel de pobreza de los hogares en Chile, en los cuales se encuentran los hogares con estudiantes en la educación superior.
 
 ```{r}
-indicadores_sup = casen_superior %>% 
+setwd("C:/Users/franr/OneDrive/Documentos/GitHub/Trabajo-R-Uah/Processing")
+casen2022 <- read_dta("casen2022.dta")
+```
+
+En primer lugar seleccionamos las variables del subset que contiene las variables dicotómicas sobre la presencia o ausencia de un atributo específico como lo son las dimensiones de: educación, salud, vivienda y trabajo
+
+```{r}
+indicadores <- casen2022 %>% select(asistencia, 
+                                      rezago, 
+                                      escolaridad, 
+                                      malnutricion, 
+                                      sist_salud, 
+                                      atencion, 
+                                      ocupacion, 
+                                      seg_social, 
+                                      jubilacion, 
+                                      hacinamiento, 
+                                      estado_vivienda=vivienda, 
+                                      serv_basicos)  %>%
+  na.omit() %>% # Eliminar Na's
+  mutate_all(~(as.numeric(.)))
+```
+
+Una vez hecho esto, se asignará cada variable para las dimensiones asociadas al eje al que pertenecen. A su vez, en esta sección se realizará un promedio de los resultados obtenidos en cada dimensión.
+
+```{r}
+indicadores = indicadores %>% 
   rowwise() %>%
-  mutate(tipo_educacion = mean(c(nivel_educ, estab_sup)),
-         financiamiento = mean(c(credi_sup, pago_carrera)),
-         ) %>% 
+  mutate(educ = mean(c(asistencia, rezago, escolaridad)),
+         salud = mean(c(malnutricion, sist_salud, atencion)),
+         trabajo= mean(c(ocupacion, seg_social, jubilacion)),
+         vivienda= mean(c(hacinamiento, estado_vivienda, serv_basicos))) %>% 
   ungroup()
 ```
 
-Una vez obtenidas las dos dimensiones que podemos obtener de nuestra base de datos, que serían sobre financimiento de la educación superior y sobre el tipo de educacion que el encuestado recibe, procederemos a obtener el promedio de estas dos dimensiones para así establecer cuál sería el índice del financimiento en la educación superior.
+Ahora, se obtendrá el promedio de las cuatro dimensiones que conformarán la pobreza multidimensional de los hogares en los que se encuentran hogares con estudiantes en educación superior que fueron descritos en la primera mitad de este trabajo de investigación.
 
 ```{r}
-indicadores_sup = indicadores_sup %>% 
+indicadores = indicadores %>% 
   rowwise() %>%
-  mutate(financiamiento_superior = mean(c(tipo_educacion, financiamiento))) %>% 
+  mutate(pobreza = mean(c(educ, salud, trabajo, vivienda))) %>% 
   ungroup()
 ```
 
-Al obtener de esta forma los índices para cada observación de las variables, buscaremos obtener un valor númerico que nos permita determinar si la situación de los estudiantes resulta ser una situación de endeudamiento para financiar sus estudios superiores o no.
+Una vez realizado el cálculo del índice promediando las cuatro dimensiones para obtener pobreza multidimensional, lo siguiente será realizar una tabla para determinar en cuántos hogares en Chile se encuentra presenta una pobreza dimensional.
 
 ```{r}
-indicadores_sup <- indicadores_sup %>% mutate(financiamiento_superior = case_when(financiamiento_superior>=2~"Estudiante sin créditos",
-                                                      financiamiento_superior<2~"Estudiante con créditos"))
-prop.table(table(indicadores_sup$financiamiento_superior))*100
+summary(indicadores$pobreza) # Resumen
+indicadores <- indicadores %>% mutate(pobreza = case_when(pobreza>=0.25~"si",
+                                                                  pobreza<0.25~"no")
+)
+prop.table(table(indicadores$pobreza))*100
 ```
 
-Al establecer estos índices podemos observar que los estudiantes de la educación superior que financian sus estudios mediante el sistema de créditos es bastante alto, siendo casi el doble de los estudiantes que estudian sin el uso de créditos. Un 64.67% de los estudiantes se encontraría o se encontró en una situación en donde financió sus estudios de nivel superior mediante los créditos y, por lo tanto, tuvo que endeudarse para posibilitar la continuidad de sus estudios en miras de una mejora y aumento de posibilidades laborales.
+Al correr este código podemos obtener que aproximadamente el 12.9% de los hogares en Chile presenta pobreza multidimensional, lo que indica que en los hogares de Chile para el año 2022, dentro de los cuales existe un posibilidad de que estén aquellos hogares con estudiantes en educación superior.
+
+La preocupación por la pobreza multidimensional en este estudio se encuentra radicada en la estrecha relación que existe entre la desigualdad en el acceso de las cuatro dimensiones mencionadad con anterioridad y la situación de financiamiento de los estudiantes en educación superior. En este sentido, un hogar con presencia del índicador de pobreza multidimensional de acuerdo con PNUD en el año 2014 tendrá aún más dificultades de financiar autónomamente el costo de cualquier carrera en alguna dependencia de educación superior, siendo más probables de solicitar créditos o algún finaciamente que comprometa económicamente al hogar en su intento por ascender socialmente.

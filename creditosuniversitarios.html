@@ -140,7 +140,8 @@ div.csl-indent {
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>              sjPlot, </span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>              corrplot,</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>              sessioninfo, </span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>              ggplot2) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>              ggplot2,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>              haven) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>summarytools<span class="sc">::</span><span class="fu">dfSummary</span>(casen_superior, <span class="at">plain.ascii =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -174,7 +175,7 @@ No   Variable        Label                             Stats / Values   Freqs (%
 <pre><code>Switching method to 'browser'</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Output file written: C:\Users\franr\AppData\Local\Temp\RtmpITWtYr\file513072d91d21.html</code></pre>
+<pre><code>Output file written: C:\Users\franr\AppData\Local\Temp\Rtmp4ojKMM\file574048f7727a.html</code></pre>
 </div>
 </div>
 <p>Estos primeros datos nos dan una muestra general del financiamiento de los estudiantes de distintos niveles y establecimientos educacionales, del cual la población de estudiantes superiores se ve distribuida en tres niveles educacionales, teniendo como el más frecuente para esta población el nivel profesional con un total de 4.573 casos, seguido por la formación técnica nivel superior con un total de 1.579 estudiantes, mientras que el nivel de posgrado se encuentra con 465 casos.</p>
@@ -374,34 +375,64 @@ No   Variable        Label                             Stats / Values   Freqs (%
 </div>
 </div>
 <p>En el anterior gráfico de nube de puntos podemos observar que entre estas dos variables existe una asociación más débil con respecto al gráfico anteriormente observado, en la cual se encuentra una dirección positiva, lo que representa cierto grado mínimo de una asociación esperada entre estudiantes que financian sus estudios mediante algún tipo de crédito y estudiantes en distintos establecimientos de educación superior.</p>
-<p>Ahora, para determinar el grado en el que el financiamiento de la educación superior mediante el uso de créditos está presente en aquellos estudiantes de los niveles educacionales superiores, realizaremos un índice ponderado.</p>
+<p>Ahora, para determinar el grado en el que el financiamiento de la educación superior mediante el uso de créditos está presente en aquellos estudiantes de los niveles educacionales superiores, realizaremos un índice no ponderado de la base de datps casen, para lograr identificar el nivel de pobreza de los hogares en Chile, en los cuales se encuentran los hogares con estudiantes en la educación superior.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>indicadores_sup <span class="ot">=</span> casen_superior <span class="sc">%&gt;%</span> </span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tipo_educacion =</span> <span class="fu">mean</span>(<span class="fu">c</span>(nivel_educ, estab_sup)),</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">financiamiento =</span> <span class="fu">mean</span>(<span class="fu">c</span>(credi_sup, pago_carrera)),</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>         ) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/franr/OneDrive/Documentos/GitHub/Trabajo-R-Uah/Processing"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>casen2022 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"casen2022.dta"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Una vez obtenidas las dos dimensiones que podemos obtener de nuestra base de datos, que serían sobre financimiento de la educación superior y sobre el tipo de educacion que el encuestado recibe, procederemos a obtener el promedio de estas dos dimensiones para así establecer cuál sería el índice del financimiento en la educación superior.</p>
+<p>En primer lugar seleccionamos las variables del subset que contiene las variables dicotómicas sobre la presencia o ausencia de un atributo específico como lo son las dimensiones de: educación, salud, vivienda y trabajo</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>indicadores_sup <span class="ot">=</span> indicadores_sup <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">financiamiento_superior =</span> <span class="fu">mean</span>(<span class="fu">c</span>(tipo_educacion, financiamiento))) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>indicadores <span class="ot">&lt;-</span> casen2022 <span class="sc">%&gt;%</span> <span class="fu">select</span>(asistencia, </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                                      rezago, </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                                      escolaridad, </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                                      malnutricion, </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                                      sist_salud, </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                                      atencion, </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>                                      ocupacion, </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                                      seg_social, </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>                                      jubilacion, </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>                                      hacinamiento, </span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">estado_vivienda=</span>vivienda, </span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>                                      serv_basicos)  <span class="sc">%&gt;%</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">%&gt;%</span> <span class="co"># Eliminar Na's</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_all</span>(<span class="sc">~</span>(<span class="fu">as.numeric</span>(.)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Al obtener de esta forma los índices para cada observación de las variables, buscaremos obtener un valor númerico que nos permita determinar si la situación de los estudiantes resulta ser una situación de endeudamiento para financiar sus estudios superiores o no.</p>
+<p>Una vez hecho esto, se asignará cada variable para las dimensiones asociadas al eje al que pertenecen. A su vez, en esta sección se realizará un promedio de los resultados obtenidos en cada dimensión.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>indicadores_sup <span class="ot">&lt;-</span> indicadores_sup <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">financiamiento_superior =</span> <span class="fu">case_when</span>(financiamiento_superior<span class="sc">&gt;=</span><span class="dv">2</span><span class="sc">~</span><span class="st">"Estudiante sin créditos"</span>,</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                                                      financiamiento_superior<span class="sc">&lt;</span><span class="dv">2</span><span class="sc">~</span><span class="st">"Estudiante con créditos"</span>))</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(indicadores_sup<span class="sc">$</span>financiamiento_superior))<span class="sc">*</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>indicadores <span class="ot">=</span> indicadores <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">educ =</span> <span class="fu">mean</span>(<span class="fu">c</span>(asistencia, rezago, escolaridad)),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">salud =</span> <span class="fu">mean</span>(<span class="fu">c</span>(malnutricion, sist_salud, atencion)),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">trabajo=</span> <span class="fu">mean</span>(<span class="fu">c</span>(ocupacion, seg_social, jubilacion)),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">vivienda=</span> <span class="fu">mean</span>(<span class="fu">c</span>(hacinamiento, estado_vivienda, serv_basicos))) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ahora, se obtendrá el promedio de las cuatro dimensiones que conformarán la pobreza multidimensional de los hogares en los que se encuentran hogares con estudiantes en educación superior que fueron descritos en la primera mitad de este trabajo de investigación.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>indicadores <span class="ot">=</span> indicadores <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowwise</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pobreza =</span> <span class="fu">mean</span>(<span class="fu">c</span>(educ, salud, trabajo, vivienda))) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Una vez realizado el cálculo del índice promediando las cuatro dimensiones para obtener pobreza multidimensional, lo siguiente será realizar una tabla para determinar en cuántos hogares en Chile se encuentra presenta una pobreza dimensional.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(indicadores<span class="sc">$</span>pobreza) <span class="co"># Resumen</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+0.00000 0.00000 0.08333 0.10083 0.16667 0.66667 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>indicadores <span class="ot">&lt;-</span> indicadores <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">pobreza =</span> <span class="fu">case_when</span>(pobreza<span class="sc">&gt;=</span><span class="fl">0.25</span><span class="sc">~</span><span class="st">"si"</span>,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                                                                  pobreza<span class="sc">&lt;</span><span class="fl">0.25</span><span class="sc">~</span><span class="st">"no"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.table</span>(<span class="fu">table</span>(indicadores<span class="sc">$</span>pobreza))<span class="sc">*</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Estudiante con créditos Estudiante sin créditos 
-               64.69699                35.30301 </code></pre>
+      no       si 
+87.12204 12.87796 </code></pre>
 </div>
 </div>
-<p>Al establecer estos índices podemos observar que los estudiantes de la educación superior que financian sus estudios mediante el sistema de créditos es bastante alto, siendo casi el doble de los estudiantes que estudian sin el uso de créditos. Un 64.67% de los estudiantes se encontraría o se encontró en una situación en donde financió sus estudios de nivel superior mediante los créditos y, por lo tanto, tuvo que endeudarse para posibilitar la continuidad de sus estudios en miras de una mejora y aumento de posibilidades laborales.</p>
+<p>Al correr este código podemos obtener que aproximadamente el 12.9% de los hogares en Chile presenta pobreza multidimensional, lo que indica que en los hogares de Chile para el año 2022, dentro de los cuales existe un posibilidad de que estén aquellos hogares con estudiantes en educación superior.</p>
+<p>La preocupación por la pobreza multidimensional en este estudio se encuentra radicada en la estrecha relación que existe entre la desigualdad en el acceso de las cuatro dimensiones mencionadad con anterioridad y la situación de financiamiento de los estudiantes en educación superior. En este sentido, un hogar con presencia del índicador de pobreza multidimensional de acuerdo con PNUD en el año 2014 tendrá aún más dificultades de financiar autónomamente el costo de cualquier carrera en alguna dependencia de educación superior, siendo más probables de solicitar créditos o algún finaciamente que comprometa económicamente al hogar en su intento por ascender socialmente.</p>
 
 </section>
 
